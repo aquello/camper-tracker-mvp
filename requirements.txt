@@ -1,0 +1,12 @@
+# Camper Tracker MVP - Dependencias
+# Fase 1: Conector AutoScout24
+
+# HTTP requests
+requests>=2.31.0
+
+# HTML parsing
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+
+# (opcional) Si se prefiere html5lib en lugar de lxml:
+# html5lib>=1.1
