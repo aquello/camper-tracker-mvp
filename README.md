@@ -91,6 +91,42 @@ python scripts/seed_check.py
 
 ## Esquema de base de datos
 
+### 4. Ejecutar primer crawl (Fase 1)
+
+```bash
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Ejecutar crawl de un target concreto (por ejemplo: AutoScout24 campers EU)
+python scripts/run_crawl.py --source autoscout24 --target-id 3 --max-pages 2
+
+# O ejecutar todos los targets de AutoScout24
+python scripts/run_crawl.py --source autoscout24 --all --max-pages 2
+```
+
+Salida esperada:
+```
+2026-04-14 09:15:23 [INFO] AutoScout24Connector: Iniciando crawl: https://www.autoscout24.com/lst?body=7&atype=C
+2026-04-14 09:15:26 [INFO] AutoScout24Connector: Crawl completado: 40 anuncios en 12.3s
+2026-04-14 09:15:27 [INFO] __main__: === Crawl completado: 40 anuncios encontrados, 38 guardados ===
+```
+
+**Comandos útiles:**
+
+```bash
+# Ver targets disponibles
+python scripts/seed_check.py
+
+# Crawl directo de una URL sin guardar en DB (modo test)
+python scripts/run_crawl.py --source autoscout24 --url "https://www.autoscout24.com/lst?body=7&atype=C"
+
+# Ver anuncios en la DB
+sqlite3 data/camper_tracker.db "SELECT id, title, price_amount, location_text FROM listing LIMIT 10;"
+
+# Ver crawl_runs
+sqlite3 data/camper_tracker.db "SELECT * FROM crawl_run ORDER BY started_at DESC LIMIT 5;"
+```
+
 | Tabla | Descripción |
 |---|---|
 | `source` | Fuentes de datos (portales, grupos FB, marketplace) |
@@ -133,11 +169,10 @@ python scripts/seed_check.py
 ## Fases del proyecto
 
 - [x] **Fase 0** — Base de datos SQLite + seed de fuentes y targets
-- [ ] **Fase 1** — Conector para portal estructurado (mobile.de / AutoScout24)
+- [x] **Fase 0** — Base de datos SQLite + seed de fuentes y targets
+- [x] **Fase 1** — Conector AutoScout24 funcional con crawling y persistencia en DB
 - [ ] **Fase 2** — Conector Facebook (grupos + marketplace)
-- [ ] **Fase 3** — Reporting: nuevos anuncios, bajadas de precio, desaparecidos
-
----
+- [ ] **Fase 3** — Reporting: nuevos anuncios, bajadas de precio, desaparecidos---
 
 ## Notas legales / técnicas
 
